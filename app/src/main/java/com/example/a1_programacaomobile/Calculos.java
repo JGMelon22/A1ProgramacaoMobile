@@ -1,0 +1,32 @@
+package com.example.a1_programacaomobile;
+
+public class Calculos {
+
+    private final String nomeAluno;
+    private final float a1, a2;
+
+    // Getters
+    public String getNomeAluno() {
+        return nomeAluno;
+    }
+
+    public float getA1() {
+        return a1;
+    }
+
+    public float getA2() {
+        return a2;
+    }
+
+    // CTOR
+    public Calculos(String nomeAluno, float a1, float a2) {
+        this.nomeAluno = nomeAluno;
+        this.a1 = a1;
+        this.a2 = a2;
+    }
+
+
+    public float calcularNota() {
+        return (float) ((a1 + a2) / 2.0);
+    }
+}
