@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 // Pega informações do aluno (nome e nota final) e passa para a segunda tela
                 Intent intent = new Intent(MainActivity.this, SituacaoAluno.class);
                 intent.putExtra("ChaveInfoAluno", notaFinalAluno);
+                intent.putExtra("ChaveNotaA1Aluno", txtNotaA1.getText().toString());
                 startActivity(intent);
                 finish(); // Ao abrir a nova activity, finaliza anterior para fins de otimização
             }
@@ -88,3 +89,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
+// Intent para auxiliar a passar a nota final para a segunda tela
