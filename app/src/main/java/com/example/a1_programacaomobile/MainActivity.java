@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         txtNomeAluno = findViewById(R.id.plainTextNomeAluno);
         txtNotaA1 = findViewById(R.id.plainTextA1);
         txtNotaA2 = findViewById(R.id.plainTextA2);
-
         txtNotaFinalAluno = findViewById(R.id.txtViewNotaFinal);
 
         // Julga se nome do aluno foi informado ou não
@@ -47,25 +46,32 @@ public class MainActivity extends AppCompatActivity {
 
         nota1 = Float.parseFloat(txtNotaA1.getText().toString());
         nota2 = Float.parseFloat(txtNotaA2.getText().toString());
-
-        // Chama a classe para realizar os calculos
-        Calculos calculos = new Calculos(nomeDoAluno, nota1, nota2);
-
-        float notaAluno = calculos.calcularNota();
-
-        // Julga se o aluno passou ou não
-        if (notaAluno >= 6.0)
-            // Metodo de calcular
-            txtNotaFinalAluno.setText(String.format("Nota final do Aluno = %.2f\nParabéns, %s, você foi aprovado!\uD83E\uDD73", notaAluno, nomeDoAluno));
-
-        else {
-            txtNotaFinalAluno.setText(String.format("Nota final do Aluno = %.2f\nInfelizmente, %s, você foi reprovado!\uD83D\uDE22", notaAluno, nomeDoAluno));
-        }
     }
 
     public void buttonCalcularMediaOnClick(View view) {
         try {
             calcularMedia(view);
+
+
+            String nomeDoAluno = txtNomeAluno.getText().toString();
+            if (nomeDoAluno.trim().isEmpty()) {
+                Toast.makeText(MainActivity.this, "Por favor, informe o nome do aluno!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Chama a classe para realizar os calculos
+            Calculos calculos = new Calculos(nomeDoAluno, nota1, nota2);
+
+            float notaAluno = calculos.calcularNota();
+
+            // Julga se o aluno passou ou não
+            if (notaAluno >= 6.0)
+                // Metodo de calcular
+                txtNotaFinalAluno.setText(String.format("Nota final do Aluno = %.2f\nParabéns, %s, você foi aprovado!\uD83E\uDD73", notaAluno, nomeDoAluno));
+
+            else {
+                txtNotaFinalAluno.setText(String.format("Nota final do Aluno = %.2f\nInfelizmente, %s, você foi reprovado!\uD83D\uDE22", notaAluno, nomeDoAluno));
+            }
 
             String notaFinalAluno = txtNotaFinalAluno.getText().toString(); // Avalia se o nome do aluno foi informado
             if (notaFinalAluno.trim().isEmpty()) {
@@ -81,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, SituacaoAluno.class);
                 intent.putExtra("ChaveInfoAluno", notaFinalAluno);
                 intent.putExtra("ChaveNotaA1Aluno", txtNotaA1.getText().toString());
+                intent.putExtra("ChaveNotaA2Aluno", txtNotaA2.getText().toString());
                 startActivity(intent);
                 finish(); // Ao abrir a nova activity, finaliza anterior para fins de otimização
             }
@@ -89,5 +96,3 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-
-// Intent para auxiliar a passar a nota final para a segunda tela

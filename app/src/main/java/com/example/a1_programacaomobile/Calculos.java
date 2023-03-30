@@ -34,10 +34,10 @@ public class Calculos {
     }
 
     public float calcularNota() {
-        return (float) ((a1 + a2) / 2.0F);
+        return (a1 + a2) / 2.0F;
     }
 
     public float calcularNotaRecuperacao() {
-        return (float) a1 + (a2 + as) / 2.0F;
+        return a1 + (a2 + as) / 2.0F;
     }
 }
