@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Modifica nome da top bar
         getSupportActionBar().setTitle("A1 Programação Mobile");
-
     }
 
     // Método para calcular a média inicial do aluno
@@ -71,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
             String notaFinalAluno = txtNotaFinalAluno.getText().toString(); // Avalia se o nome do aluno foi informado
             if (notaFinalAluno.trim().isEmpty()) {
                 Toast.makeText(MainActivity.this, "Por favor, certifique-se de que foi informado o nome do aluno, nota A1 e A2 para prosseguir!", Toast.LENGTH_SHORT).show();
+            }
+
+            // Julga se as notas estão em um intervalo válido
+            if (Float.parseFloat(txtNotaA1.getText().toString()) < 0 || (Float.parseFloat(txtNotaA1.getText().toString()) > 10) || Float.parseFloat(txtNotaA2.getText().toString()) < 0 || (Float.parseFloat(txtNotaA2.getText().toString()) > 10)) {
+                Toast.makeText(MainActivity.this, "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
+
             } else {
                 // Pega informações do aluno (nome e nota final) e passa para a segunda tela
                 Intent intent = new Intent(MainActivity.this, SituacaoAluno.class);
