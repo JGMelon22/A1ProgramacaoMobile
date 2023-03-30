@@ -112,7 +112,7 @@
         app:layout_constraintVertical_bias="0.436" />
 
     <TextView
-        android:id="@+id/txtViewNotaFinal"
+        android:id="@+id/textViewInfoMainAc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Aqui"
@@ -124,5 +124,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonCalcularMedia"
         app:layout_constraintVertical_bias="0.5" />
+
+    <EditText
+        android:id="@+id/editTextMediaAcMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="452dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
