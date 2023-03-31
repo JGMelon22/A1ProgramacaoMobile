@@ -28,5 +28,6 @@ public class AprovadoAS extends AppCompatActivity {
     // Encerra o programa
     public void buttonEncerrarOnClick(View view) {
         finish();
+        System.exit(0);
     }
 }
