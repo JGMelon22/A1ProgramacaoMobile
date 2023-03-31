@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
         nota1 = Float.parseFloat(txtNotaA1.getText().toString());
         nota2 = Float.parseFloat(txtNotaA2.getText().toString());
-
-
     }
 
     public void buttonCalcularMediaOnClick(View view) {
@@ -63,15 +61,16 @@ public class MainActivity extends AppCompatActivity {
             Calculos calculos = new Calculos(nomeDoAluno, nota1, nota2);
 
             float notaAluno = calculos.calcularNota();
-            // txtMediaAcMain.setText(String.valueOf(notaAluno));
 
             // Julga se o aluno passou ou não
             if (notaAluno >= 6.0) {
                 // Metodo de calcular
                 txtNotaFinalAluno.setText(String.format("Nota final do Aluno = %.2f\nParabéns, %s, você foi aprovado!\uD83E\uDD73", notaAluno, nomeDoAluno));
+                // txtMediaAcMain.setText((int)notaAluno);
 
             } else {
                 txtNotaFinalAluno.setText(String.format("Nota final do Aluno = %.2f\nInfelizmente, %s, você foi reprovado!\uD83D\uDE22", notaAluno, nomeDoAluno));
+                // txtMediaAcMain.setText((int)notaAluno);
             }
 
             // Julga se as notas estão em um intervalo válido
@@ -84,12 +83,11 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("ChaveInfoAluno", txtNotaFinalAluno.getText().toString());
                 intent.putExtra("ChaveNotaA1Aluno", txtNotaA1.getText().toString());
                 intent.putExtra("ChaveNotaA2Aluno", txtNotaA2.getText().toString());
-                intent.putExtra("ChaveMediaAluno", txtMediaAcMain.getText().toString());
+                // intent.putExtra("ChaveMediaAluno", txtMediaAcMain.getText().toString());
                 startActivity(intent);
                 finish(); // Ao abrir a nova activity, finaliza anterior para fins de otimização
             }
-        } catch (
-                Exception e) { // Em caso de erro, mostra mensagem para o usuário em uma toast
+        } catch (Exception e) { // Em caso de erro, mostra mensagem para o usuário em uma toast
             Toast.makeText(MainActivity.this, "Por favor, certifique-se de que foi informado o nome do aluno, nota A1 e A2 para prosseguir!", Toast.LENGTH_SHORT).show();
         }
     }

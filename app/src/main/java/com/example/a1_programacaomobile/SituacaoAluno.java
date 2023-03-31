@@ -35,7 +35,7 @@ public class SituacaoAluno extends AppCompatActivity {
         String valorNotaA2 = getIntent().getStringExtra("ChaveNotaA2Aluno");
         txtNotaA2.setText(valorNotaA2);
 
-        // 9txtViewMedia = findViewById(R.id.editTextMedia);
+        // txtViewMedia = findViewById(R.id.editTextMedia);
         // String valorMedia = getIntent().getStringExtra("ChaveMediaAluno");
         // txtViewMedia.setText(valorMedia);
     }
