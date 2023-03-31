@@ -12,8 +12,8 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     // Variáveis globais para manipular o contéudo recibido na View
-    EditText txtNomeAluno, txtNotaA1, txtNotaA2, txtMediaAcMain;
-    TextView txtNotaFinalAluno;
+    EditText txtNomeAluno, txtNotaA1, txtNotaA2;
+    TextView txtNotaFinalAluno, txtViewMediaAc;
 
     float nota1, nota2;
 
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         txtNotaA1 = findViewById(R.id.plainTextA1);
         txtNotaA2 = findViewById(R.id.plainTextA2);
         txtNotaFinalAluno = findViewById(R.id.textViewInfoMainAc);
-        txtMediaAcMain = findViewById(R.id.editTextMedia);
+        txtViewMediaAc = findViewById(R.id.textViewMediaAc);
 
         // Julga se nome do aluno foi informado ou não
         String nomeDoAluno = txtNomeAluno.getText().toString();
@@ -66,11 +66,11 @@ public class MainActivity extends AppCompatActivity {
             if (notaAluno >= 6.0) {
                 // Metodo de calcular
                 txtNotaFinalAluno.setText(String.format("Nota final do Aluno = %.2f\nParabéns, %s, você foi aprovado!\uD83E\uDD73", notaAluno, nomeDoAluno));
-                // txtMediaAcMain.setText((int)notaAluno);
+                txtViewMediaAc.setText(String.valueOf(notaAluno));
 
             } else {
                 txtNotaFinalAluno.setText(String.format("Nota final do Aluno = %.2f\nInfelizmente, %s, você foi reprovado!\uD83D\uDE22", notaAluno, nomeDoAluno));
-                // txtMediaAcMain.setText((int)notaAluno);
+                txtViewMediaAc.setText(String.valueOf(notaAluno));
             }
 
             // Julga se as notas estão em um intervalo válido
@@ -83,11 +83,12 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("ChaveInfoAluno", txtNotaFinalAluno.getText().toString());
                 intent.putExtra("ChaveNotaA1Aluno", txtNotaA1.getText().toString());
                 intent.putExtra("ChaveNotaA2Aluno", txtNotaA2.getText().toString());
-                // intent.putExtra("ChaveMediaAluno", txtMediaAcMain.getText().toString());
+                intent.putExtra("ChaveMedia", txtViewMediaAc.getText().toString());
                 startActivity(intent);
                 finish(); // Ao abrir a nova activity, finaliza anterior para fins de otimização
             }
-        } catch (Exception e) { // Em caso de erro, mostra mensagem para o usuário em uma toast
+        } catch (
+                Exception e) { // Em caso de erro, mostra mensagem para o usuário em uma toast
             Toast.makeText(MainActivity.this, "Por favor, certifique-se de que foi informado o nome do aluno, nota A1 e A2 para prosseguir!", Toast.LENGTH_SHORT).show();
         }
     }

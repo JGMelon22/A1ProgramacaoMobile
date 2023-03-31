@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 public class SituacaoAluno extends AppCompatActivity {
 
-    TextView txtViewInfo;
-    EditText txtNotaAS, txtNotaA1, txtNotaA2, txtViewMedia;
+    TextView txtViewInfo, txtViewMedia;
+    EditText txtNotaAS, txtNotaA1, txtNotaA2;
     Button btnEnviarAS;
     float notaAS, notaA1, notaA2;
 
@@ -35,8 +35,8 @@ public class SituacaoAluno extends AppCompatActivity {
         String valorNotaA2 = getIntent().getStringExtra("ChaveNotaA2Aluno");
         txtNotaA2.setText(valorNotaA2);
 
-        // txtViewMedia = findViewById(R.id.editTextMedia);
-        // String valorMedia = getIntent().getStringExtra("ChaveMediaAluno");
-        // txtViewMedia.setText(valorMedia);
+        txtViewMedia = findViewById(R.id.textViewMedia);
+        String valorMedia = getIntent().getStringExtra("ChaveMediaAluno");
+        txtViewMedia.setText(valorMedia);
     }
 }
