@@ -60,17 +60,19 @@ public class SituacaoAluno extends AppCompatActivity {
         }
     }
 
+    public void calcularMediaAS(View view) {
+        notaAS = Float.parseFloat(txtNotaAS.getText().toString());
+
+        // Critica se nota é vazia e dentro de intervalo
+        if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaAS.getText().toString()) > 10)) {
+            Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     // Calcular AS
     public void buttonEnviarOnClick(View view) {
         try {
-
-            // Critica se nota é vazia e dentro de intervalo
-//            if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaAS.getText().toString()) > 10)) {
-//                Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
-//            }
-
-            notaAS = Float.parseFloat(txtNotaAS.getText().toString());
+            calcularMediaAS(view);
 
             // Critica se nota é vazia e dentro de intervalo
             if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaAS.getText().toString()) > 10)) {
@@ -99,8 +101,8 @@ public class SituacaoAluno extends AppCompatActivity {
                     finish();
                 }
             }
-
-        } catch (Exception e) { // Em caso de erro, mostra mensagem para o usuário em uma toast
+        } catch (
+                Exception e) { // Em caso de erro, mostra mensagem para o usuário em uma toast
             Toast.makeText(getApplicationContext(), "Por favor, certifique-se de que foi informado a nota AS para prosseguir!", Toast.LENGTH_SHORT).show();
         }
     }
