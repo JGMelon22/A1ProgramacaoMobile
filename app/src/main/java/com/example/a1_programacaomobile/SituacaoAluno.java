@@ -2,6 +2,7 @@ package com.example.a1_programacaomobile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +15,7 @@ public class SituacaoAluno extends AppCompatActivity {
     TextView txtViewInfo, txtViewMedia, txtViewAS, txtViewInfo2;
     EditText txtNotaAS, txtNotaA1, txtNotaA2;
     Button btnEnviarAS;
-    float notaAS, notaA1, notaA2;
+    float notaAS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,35 +60,48 @@ public class SituacaoAluno extends AppCompatActivity {
         }
     }
 
+
     // Calcular AS
     public void buttonEnviarOnClick(View view) {
+        try {
 
-        // Pega nota AS
-        notaAS = Float.parseFloat(txtNotaAS.getText().toString());
+            // Critica se nota é vazia e dentro de intervalo
+//            if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaAS.getText().toString()) > 10)) {
+//                Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
+//            }
 
-        // Critica se nota é vazia e dentro de intervalo
-        if (Float.parseFloat(txtNotaA1.getText().toString()) < 0 || (Float.parseFloat(txtNotaA1.getText().toString()) > 10) || Float.parseFloat(txtNotaA2.getText().toString()) < 0 || (Float.parseFloat(txtNotaA2.getText().toString()) > 10)) {
-            Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
+            notaAS = Float.parseFloat(txtNotaAS.getText().toString());
+
+            // Critica se nota é vazia e dentro de intervalo
+            if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaAS.getText().toString()) > 10)) {
+                Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
+            } else {
+                // Chama a classe para realizar os calculos
+                Calculos calculos = new Calculos(Float.parseFloat(txtNotaA1.getText().toString()), Float.parseFloat(txtNotaA2.getText().toString()), notaAS);
+
+                float notaAlunoPosAS = calculos.calcularNotaRecuperacao();
+
+                // Julga se o aluno passou ou não
+                if (notaAlunoPosAS >= 6.0) {
+                    // Metodo de calcular
+                    txtViewInfo2.setText(String.format("Nota final do Aluno = %.2f\nParabéns, você foi aprovado!\uD83E\uDD73", notaAlunoPosAS));
+
+                } else {
+                    txtViewInfo2.setText(String.format("Nota final do Aluno = %.2f\nInfelizmente você foi reprovado!\uD83D\uDE22", notaAlunoPosAS));
+                }
+
+                if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaA1.getText().toString()) > 10) || Float.parseFloat(txtNotaA2.getText().toString()) < 0 || (Float.parseFloat(txtNotaA2.getText().toString()) > 10)) {
+                    Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), AprovadoAS.class);
+                    intent.putExtra("ChaveInfoAluno2", txtViewInfo2.getText());
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+        } catch (Exception e) { // Em caso de erro, mostra mensagem para o usuário em uma toast
+            Toast.makeText(getApplicationContext(), "Por favor, certifique-se de que foi informado a nota AS para prosseguir!", Toast.LENGTH_SHORT).show();
         }
-
-        // Chama a classe para realizar os calculos
-        Calculos calculos = new Calculos(Float.parseFloat(txtNotaA1.getText().toString()), Float.parseFloat(txtNotaA2.getText().toString()), notaAS);
-
-        float notaAlunoPosAS = calculos.calcularNotaRecuperacao();
-
-        // Julga se o aluno passou ou não
-        if (notaAlunoPosAS >= 6.0) {
-            // Metodo de calcular
-            txtViewInfo2.setText(String.format("Nota final do Aluno = %.2f\nParabéns, você foi aprovado!\uD83E\uDD73", notaAlunoPosAS));
-
-        } else {
-            txtViewInfo2.setText(String.format("Nota final do Aluno = %.2f\nInfelizmente você foi reprovado!\uD83D\uDE22", notaAlunoPosAS));
-        }
-
-//        // Julga se as notas estão em um intervalo válido
-//        if (Float.parseFloat(txtNotaA1.getText().toString()) < 0 || (Float.parseFloat(txtNotaA1.getText().toString()) > 10) || Float.parseFloat(txtNotaA2.getText().toString()) < 0 || (Float.parseFloat(txtNotaA2.getText().toString()) > 10)) {
-//            Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
-//
-//
     }
 }

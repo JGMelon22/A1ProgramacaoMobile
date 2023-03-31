@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AprovadoAS extends AppCompatActivity {
-    TextView txtView;
+    TextView txtViewResultadoPosAS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,11 +18,11 @@ public class AprovadoAS extends AppCompatActivity {
         getSupportActionBar().setTitle("A1 Programação Mobile");
 
         // Instancia componentes gráficos
-        txtView = findViewById(R.id.txtViewResultadoPosAS);
+        txtViewResultadoPosAS = findViewById(R.id.textViewResultadoPosAS);
 
-        // Obtem dados da activity anterior
-        String valor = getIntent().getStringExtra("infoAS");
-        txtView.setText(valor);
+        // Instancia objeto grafico e obtem dados da activity anterior
+        String valorViewInfo2 = getIntent().getStringExtra("ChaveInfoAluno2");
+        txtViewResultadoPosAS.setText(valorViewInfo2);
     }
 
     // Encerra o programa
