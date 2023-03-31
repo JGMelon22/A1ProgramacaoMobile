@@ -4,9 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.Spanned;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Variáveis globais para manipular o contéudo recibido na View
     EditText txtNomeAluno, txtNotaA1, txtNotaA2;
-    TextView txtNotaFinalAluno;
+    TextView txtNotaFinalAluno, txtViewMediaAc;
 
     float nota1, nota2;
 
@@ -35,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
         txtNomeAluno = findViewById(R.id.plainTextNomeAluno);
         txtNotaA1 = findViewById(R.id.plainTextA1);
         txtNotaA2 = findViewById(R.id.plainTextA2);
-
-        txtNotaFinalAluno = findViewById(R.id.txtViewNotaFinal);
+        txtNotaFinalAluno = findViewById(R.id.textViewInfoMainAc);
+        txtViewMediaAc = findViewById(R.id.textViewMediaAc);
 
         // Julga se nome do aluno foi informado ou não
         String nomeDoAluno = txtNomeAluno.getText().toString();
@@ -47,29 +44,33 @@ public class MainActivity extends AppCompatActivity {
 
         nota1 = Float.parseFloat(txtNotaA1.getText().toString());
         nota2 = Float.parseFloat(txtNotaA2.getText().toString());
-
-        // Chama a classe para realizar os calculos
-        Calculos calculos = new Calculos(nomeDoAluno, nota1, nota2);
-
-        float notaAluno = calculos.calcularNota();
-
-        // Julga se o aluno passou ou não
-        if (notaAluno >= 6.0)
-            // Metodo de calcular
-            txtNotaFinalAluno.setText(String.format("Nota final do Aluno = %.2f\nParabéns, %s, você foi aprovado!\uD83E\uDD73", notaAluno, nomeDoAluno));
-
-        else {
-            txtNotaFinalAluno.setText(String.format("Nota final do Aluno = %.2f\nInfelizmente, %s, você foi reprovado!\uD83D\uDE22", notaAluno, nomeDoAluno));
-        }
     }
 
     public void buttonCalcularMediaOnClick(View view) {
         try {
             calcularMedia(view);
 
-            String notaFinalAluno = txtNotaFinalAluno.getText().toString(); // Avalia se o nome do aluno foi informado
-            if (notaFinalAluno.trim().isEmpty()) {
-                Toast.makeText(MainActivity.this, "Por favor, certifique-se de que foi informado o nome do aluno, nota A1 e A2 para prosseguir!", Toast.LENGTH_SHORT).show();
+            // Julga se nome do aluno foi informado ou não
+            String nomeDoAluno = txtNomeAluno.getText().toString();
+            if (nomeDoAluno.trim().isEmpty()) {
+                Toast.makeText(MainActivity.this, "Por favor, informe o nome do aluno!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Chama a classe para realizar os calculos
+            Calculos calculos = new Calculos(nomeDoAluno, nota1, nota2);
+
+            float notaAluno = calculos.calcularNota();
+
+            // Julga se o aluno passou ou não
+            if (notaAluno >= 6.0) {
+                // Metodo de calcular
+                txtNotaFinalAluno.setText(String.format("Nota final do Aluno = %.2f\nParabéns, %s, você foi aprovado!\uD83E\uDD73", notaAluno, nomeDoAluno));
+                txtViewMediaAc.setText(String.valueOf(notaAluno));
+
+            } else {
+                txtNotaFinalAluno.setText(String.format("Nota final do Aluno = %.2f\nInfelizmente, %s, você foi reprovado!\uD83D\uDE22", notaAluno, nomeDoAluno));
+                txtViewMediaAc.setText(String.valueOf(notaAluno));
             }
 
             // Julga se as notas estão em um intervalo válido
@@ -79,11 +80,15 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 // Pega informações do aluno (nome e nota final) e passa para a segunda tela
                 Intent intent = new Intent(MainActivity.this, SituacaoAluno.class);
-                intent.putExtra("ChaveInfoAluno", notaFinalAluno);
+                intent.putExtra("ChaveInfoAluno", txtNotaFinalAluno.getText().toString());
+                intent.putExtra("ChaveNotaA1Aluno", txtNotaA1.getText().toString());
+                intent.putExtra("ChaveNotaA2Aluno", txtNotaA2.getText().toString());
+                intent.putExtra("ChaveMedia", txtViewMediaAc.getText().toString());
                 startActivity(intent);
                 finish(); // Ao abrir a nova activity, finaliza anterior para fins de otimização
             }
-        } catch (Exception e) { // Em caso de erro, mostra mensagem para o usuário em uma toast
+        } catch (
+                Exception e) { // Em caso de erro, mostra mensagem para o usuário em uma toast
             Toast.makeText(MainActivity.this, "Por favor, certifique-se de que foi informado o nome do aluno, nota A1 e A2 para prosseguir!", Toast.LENGTH_SHORT).show();
         }
     }

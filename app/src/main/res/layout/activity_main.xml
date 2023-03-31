@@ -112,7 +112,7 @@
         app:layout_constraintVertical_bias="0.436" />
 
     <TextView
-        android:id="@+id/txtViewNotaFinal"
+        android:id="@+id/textViewInfoMainAc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Aqui"
@@ -124,5 +124,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonCalcularMedia"
         app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/textViewMediaAc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="169dp"
+        tools:layout_editor_absoluteY="444dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
