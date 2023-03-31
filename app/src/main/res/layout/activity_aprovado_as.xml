@@ -7,7 +7,7 @@
     tools:context=".AprovadoAS">
 
     <TextView
-        android:id="@+id/txtViewResultadoPosAS"
+        android:id="@+id/textViewResultadoPosAS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="28sp"
@@ -22,10 +22,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="buttonEncerrarOnClick"
+        android:backgroundTint="#0BCF13"
         android:text="Encerrar Programa"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtViewResultadoPosAS"
+        app:layout_constraintTop_toBottomOf="@+id/textViewResultadoPosAS"
         app:layout_constraintVertical_bias="0.295" />
 </androidx.constraintlayout.widget.ConstraintLayout>

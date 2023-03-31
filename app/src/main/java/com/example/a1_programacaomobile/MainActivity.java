@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("ChaveInfoAluno", txtNotaFinalAluno.getText().toString());
                 intent.putExtra("ChaveNotaA1Aluno", txtNotaA1.getText().toString());
                 intent.putExtra("ChaveNotaA2Aluno", txtNotaA2.getText().toString());
-                intent.putExtra("ChaveMedia", txtViewMediaAc.getText().toString());
+                intent.putExtra("ChaveMediaAluno", txtViewMediaAc.getText().toString());
                 startActivity(intent);
                 finish(); // Ao abrir a nova activity, finaliza anterior para fins de otimização
             }

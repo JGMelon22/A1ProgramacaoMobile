@@ -33,11 +33,17 @@ public class Calculos {
         this.a2 = a2;
     }
 
+    public Calculos(float a1, float a2, float as) {
+        this.a1 = a1;
+        this.a2 = a2;
+        this.as = as;
+    }
+
     public float calcularNota() {
         return (a1 + a2) / 2.0F;
     }
 
     public float calcularNotaRecuperacao() {
-        return a1 + (a2 + as) / 2.0F;
+        return (a1 + (a2 + as)) / 3.0F;
     }
 }
