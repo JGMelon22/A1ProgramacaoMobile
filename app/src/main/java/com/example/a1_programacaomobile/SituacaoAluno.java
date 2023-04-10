@@ -12,10 +12,11 @@ import android.widget.Toast;
 
 public class SituacaoAluno extends AppCompatActivity {
 
-    TextView txtViewInfo, txtViewMedia, txtViewAS, txtViewInfo2;
-    EditText txtNotaAS, txtNotaA1, txtNotaA2;
+    TextView txtViewInfo, txtViewAS;
+    EditText txtNotaAS;
     Button btnEnviarAS;
-    float notaAS;
+    float notaAS, notaAlunoPosAS;
+    String nomeAluno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,73 +30,63 @@ public class SituacaoAluno extends AppCompatActivity {
         btnEnviarAS = findViewById(R.id.buttonEnviar);
         txtNotaAS = findViewById(R.id.editTextAS);
         txtViewAS = findViewById(R.id.textViewAS);
-        txtViewInfo2 = findViewById(R.id.textViewInfo2);
-
-        // Instancia objeto grafico e obtem dados da activity anterior
         txtViewInfo = findViewById(R.id.textViewInfo);
-        String valorViewInfo = getIntent().getStringExtra("ChaveInfoAluno");
-        txtViewInfo.setText(valorViewInfo);
 
-        txtNotaA1 = findViewById(R.id.editTextA1);
-        String valorNotaA1 = getIntent().getStringExtra("ChaveNotaA1Aluno");
-        txtNotaA1.setText(valorNotaA1);
-
-        txtNotaA2 = findViewById(R.id.editTextA2);
-        String valorNotaA2 = getIntent().getStringExtra("ChaveNotaA2Aluno");
-        txtNotaA2.setText(valorNotaA2);
-
-        txtViewMedia = findViewById(R.id.textViewMedia);
-        String valorMedia = getIntent().getStringExtra("ChaveMediaAluno");
-        txtViewMedia.setText(String.valueOf(valorMedia));
+        // Obtem valores da actvity anterior
+        Bundle dados = getIntent().getExtras();
+        nomeAluno = dados.getString("ChaveNomeAluno");
+        Float valorMedia = dados.getFloat("ChaveMedia");
 
         // Julga se o Aluno pode/deve fazer AS
-        if (Float.parseFloat(txtViewMedia.getText().toString()) >= 6 || Float.parseFloat(txtViewMedia.getText().toString()) < 4) {
+        if (valorMedia >= 6.0F) {
+            txtViewInfo.setText(String.format(("Parabéns, %s. Você foi aprovado \uD83E\uDD73! Sua nota: %.2f"), nomeAluno, valorMedia));
             btnEnviarAS.setVisibility(View.INVISIBLE);
             txtNotaAS.setVisibility(View.INVISIBLE);
             txtViewAS.setVisibility(View.INVISIBLE);
-        } else {
+        } else if (valorMedia < 6 && valorMedia >= 4.0F) {
+            txtViewInfo.setText(String.format(("Que pena, %s. Você foi reprovado \uD83D\uDE22, mas poderá fazer a AS. Sua nota: %.2f"), nomeAluno, valorMedia));
             btnEnviarAS.setVisibility(View.VISIBLE);
             txtNotaAS.setVisibility(View.VISIBLE);
             txtViewAS.setVisibility(View.VISIBLE);
+        } else {
+            txtViewInfo.setText(String.format(("Que pena, %s. Você foi reprovado \uD83D\uDE22, e não poderá fazer a AS\nSua nota: %.2f"), nomeAluno, valorMedia));
+            btnEnviarAS.setVisibility(View.INVISIBLE);
+            txtNotaAS.setVisibility(View.INVISIBLE);
+            txtViewAS.setVisibility(View.INVISIBLE);
         }
     }
 
     public void calcularMediaAS(View view) {
+
         notaAS = Float.parseFloat(txtNotaAS.getText().toString());
 
         // Critica se nota é vazia e dentro de intervalo
         if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaAS.getText().toString()) > 10)) {
             Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
-        }
-        // Critica se nota é vazia e dentro de intervalo
-        if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaAS.getText().toString()) > 10)) {
-            Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
         } else {
+
+            Bundle dados = getIntent().getExtras();
+            Float notaA1 = dados.getFloat("ChaveNotaA1Aluno");
+            Float notaA2 = dados.getFloat("ChaveNotaA2Aluno");
+
             // Chama a classe para realizar os calculos
-            Calculos calculos = new Calculos(Float.parseFloat(txtNotaA1.getText().toString()), Float.parseFloat(txtNotaA2.getText().toString()), notaAS);
+            Calculos calculos = new Calculos(notaA1, notaA2, notaAS);
 
-            float notaAlunoPosAS = calculos.calcularNotaRecuperacao();
+            notaAlunoPosAS = calculos.calcularNotaRecuperacao();
 
-            // Julga se o aluno passou ou não
-            if (notaAlunoPosAS >= 6.0) {
-                // Metodo de calcular
-                txtViewInfo2.setText(String.format("Nota final do Aluno = %.2f\nParabéns, você foi aprovado!\uD83E\uDD73", notaAlunoPosAS));
-
-            } else {
-                txtViewInfo2.setText(String.format("Nota final do Aluno = %.2f\nInfelizmente você foi reprovado!\uD83D\uDE22", notaAlunoPosAS));
-            }
-
-            if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaA1.getText().toString()) > 10) || Float.parseFloat(txtNotaA2.getText().toString()) < 0 || (Float.parseFloat(txtNotaA2.getText().toString()) > 10)) {
+            // Julga a nota AS é valida
+            if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || Float.parseFloat(txtNotaAS.getText().toString()) > 10) {
                 Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
-            } else {
-                Intent intent = new Intent(getApplicationContext(), AprovadoAS.class);
-                intent.putExtra("ChaveInfoAluno2", txtViewInfo2.getText());
-                startActivity(intent);
-                finish();
             }
+
+            // Intent para passar valores para a nova acitvity
+            Intent intent = new Intent(getApplicationContext(), AprovadoAS.class);
+            intent.putExtra("ChaveNotaPosAS", notaAlunoPosAS);
+            intent.putExtra("ChaveNomeAluno", nomeAluno);
+            startActivity(intent);
+            finish();
         }
     }
-
 
     // Calcular AS
     public void buttonEnviarOnClick(View view) {
