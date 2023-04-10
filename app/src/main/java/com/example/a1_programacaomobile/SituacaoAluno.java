@@ -39,17 +39,17 @@ public class SituacaoAluno extends AppCompatActivity {
 
         // Julga se o Aluno pode/deve fazer AS
         if (valorMedia >= 6.0F) {
-            txtViewInfo.setText(String.format(("Parabéns, %s. Você foi aprovado \uD83E\uDD73! Sua nota: %.2f"), nomeAluno, valorMedia));
+            txtViewInfo.setText(String.format(("Parabéns, %s. Você foi aprovado! \uD83E\uDD73 Sua nota: %.2f"), nomeAluno, valorMedia));
             btnEnviarAS.setVisibility(View.INVISIBLE);
             txtNotaAS.setVisibility(View.INVISIBLE);
             txtViewAS.setVisibility(View.INVISIBLE);
         } else if (valorMedia < 6 && valorMedia >= 4.0F) {
-            txtViewInfo.setText(String.format(("Que pena, %s. Você foi reprovado \uD83D\uDE22, mas poderá fazer a AS. Sua nota: %.2f"), nomeAluno, valorMedia));
+            txtViewInfo.setText(String.format(("Que pena, %s.\nVocê foi reprovado, mas poderá fazer a AS \uD83D\uDE22\nSua nota: %.2f"), nomeAluno, valorMedia));
             btnEnviarAS.setVisibility(View.VISIBLE);
             txtNotaAS.setVisibility(View.VISIBLE);
             txtViewAS.setVisibility(View.VISIBLE);
         } else {
-            txtViewInfo.setText(String.format(("Que pena, %s. Você foi reprovado \uD83D\uDE22, e não poderá fazer a AS\nSua nota: %.2f"), nomeAluno, valorMedia));
+            txtViewInfo.setText(String.format(("Que pena, %s.\nVocê foi reprovado e não poderá fazer a AS \uD83D\uDE2D\nSua nota: %.2f"), nomeAluno, valorMedia));
             btnEnviarAS.setVisibility(View.INVISIBLE);
             txtNotaAS.setVisibility(View.INVISIBLE);
             txtViewAS.setVisibility(View.INVISIBLE);

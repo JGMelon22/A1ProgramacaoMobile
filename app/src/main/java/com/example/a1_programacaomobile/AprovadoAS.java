@@ -27,9 +27,9 @@ public class AprovadoAS extends AppCompatActivity {
 
         // Julga se o Aluno passou
         if (valorMedia >= 6.0F) {
-            txtViewResultadoPosAS.setText(String.format(("Parabéns, %s! Você foi aprovado. \uD83E\uDD73 Sua nota: %.2f"), nomeAluno, valorMedia));
+            txtViewResultadoPosAS.setText(String.format(("Parabéns, %s.\nVocê foi aprovado! \uD83E\uDD73\nSua nota: %.2f"), nomeAluno, valorMedia));
         } else {
-            txtViewResultadoPosAS.setText(String.format(("Que pena, %s! Você foi reprovado. \uD83D\uDE22 Sua nota: %.2f"), nomeAluno, valorMedia));
+            txtViewResultadoPosAS.setText(String.format(("Que pena, %s.\nVocê foi reprovado! \uD83D\uDE22\nSua nota: %.2f"), nomeAluno, valorMedia));
         }
     }
 
