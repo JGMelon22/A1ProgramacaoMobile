@@ -2,9 +2,13 @@ package com.example.a1_programacaomobile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -48,6 +52,8 @@ public class SituacaoAluno extends AppCompatActivity {
         String valorMedia = getIntent().getStringExtra("ChaveMediaAluno");
         txtViewMedia.setText(String.valueOf(valorMedia));
 
+
+
         // Julga se o Aluno pode/deve fazer AS
         if (Float.parseFloat(txtViewMedia.getText().toString()) >= 6 || Float.parseFloat(txtViewMedia.getText().toString()) < 4) {
             btnEnviarAS.setVisibility(View.INVISIBLE);
@@ -57,6 +63,7 @@ public class SituacaoAluno extends AppCompatActivity {
             btnEnviarAS.setVisibility(View.VISIBLE);
             txtNotaAS.setVisibility(View.VISIBLE);
             txtViewAS.setVisibility(View.VISIBLE);
+            FiltroNum.limitEditText(txtNotaAS, 0, 10, this);
         }
     }
 
@@ -65,6 +72,7 @@ public class SituacaoAluno extends AppCompatActivity {
 
         // Critica se nota é vazia e dentro de intervalo
         if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaAS.getText().toString()) > 10)) {
+            txtNotaAS.setError("Por favor, insira uma nota válida!");
             Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -76,6 +84,7 @@ public class SituacaoAluno extends AppCompatActivity {
 
             // Critica se nota é vazia e dentro de intervalo
             if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaAS.getText().toString()) > 10)) {
+                txtNotaAS.setError("Por favor, insira uma nota válida!");
                 Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
             } else {
                 // Chama a classe para realizar os calculos
@@ -93,6 +102,7 @@ public class SituacaoAluno extends AppCompatActivity {
                 }
 
                 if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaA1.getText().toString()) > 10) || Float.parseFloat(txtNotaA2.getText().toString()) < 0 || (Float.parseFloat(txtNotaA2.getText().toString()) > 10)) {
+                    txtNotaAS.setError("Por favor, insira uma nota válida!");
                     Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(getApplicationContext(), AprovadoAS.class);
@@ -106,4 +116,24 @@ public class SituacaoAluno extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Por favor, certifique-se de que foi informado a nota AS para prosseguir!", Toast.LENGTH_SHORT).show();
         }
     }
+
+    //Esconde o Soft Keyboard ao clicar fora de um campo de input
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText ) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    //Esconde o teclado
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
 }
