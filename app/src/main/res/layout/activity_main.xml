@@ -23,6 +23,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:text="Nome Completo:"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,6 +37,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:text="Nota A1:"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,6 +51,7 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:text="Nota A2:"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -62,7 +65,9 @@
         android:id="@+id/plainTextNomeAluno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:ems="10"
+        android:hint="eg: Cornelius Fulanus"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,29 +78,33 @@
 
     <EditText
         android:id="@+id/plainTextA1"
-        android:layout_width="97dp"
+        android:layout_width="120dp"
         android:layout_height="46dp"
+        android:layout_marginStart="8dp"
         android:ems="10"
+        android:hint="0.0   –   10"
         android:inputType="numberDecimal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.245"
+        app:layout_constraintHorizontal_bias="0.254"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.038" />
+        app:layout_constraintVertical_bias="0.035" />
 
     <EditText
         android:id="@+id/plainTextA2"
-        android:layout_width="95dp"
+        android:layout_width="120dp"
         android:layout_height="46dp"
+        android:layout_marginStart="8dp"
         android:ems="10"
+        android:hint="0.0   –   10"
         android:inputType="numberDecimal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.245"
+        app:layout_constraintHorizontal_bias="0.254"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.253" />
+        app:layout_constraintVertical_bias="0.245" />
 
     <Button
         android:id="@+id/buttonCalcularMedia"
@@ -110,28 +119,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/plainTextA2"
         app:layout_constraintVertical_bias="0.436" />
-
-    <TextView
-        android:id="@+id/textViewInfoMainAc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Aqui"
-        android:textSize="16sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonCalcularMedia"
-        app:layout_constraintVertical_bias="0.5" />
-
-    <TextView
-        android:id="@+id/textViewMediaAc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:visibility="invisible"
-        tools:layout_editor_absoluteX="169dp"
-        tools:layout_editor_absoluteY="444dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
