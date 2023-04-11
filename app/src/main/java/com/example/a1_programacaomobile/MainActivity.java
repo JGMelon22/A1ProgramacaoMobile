@@ -2,9 +2,13 @@ package com.example.a1_programacaomobile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +27,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Modifica nome da top bar
         getSupportActionBar().setTitle("A1 Programação Mobile");
+
+        txtNotaA1 = findViewById(R.id.plainTextA1);
+        txtNotaA2 = findViewById(R.id.plainTextA2);
+
+        // Filtra números inválidos em tempo real
+        FiltroNum.limitEditText(txtNotaA1, 0, 10, this);
+        FiltroNum.limitEditText(txtNotaA2, 0, 10, this);
     }
 
     // Método para calcular a média inicial do aluno
@@ -46,22 +57,17 @@ public class MainActivity extends AppCompatActivity {
 
         mediaA1A2 = calculos.calcularNota();
 
-        // Julga se as notas estão em um intervalo válido
-        if (Float.parseFloat(txtNotaA1.getText().toString()) < 0 || (Float.parseFloat(txtNotaA1.getText().toString()) > 10) || Float.parseFloat(txtNotaA2.getText().toString()) < 0 || (Float.parseFloat(txtNotaA2.getText().toString()) > 10)) {
-            Toast.makeText(MainActivity.this, "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
-
-        } else {
-            // Pega informações do aluno (nome e nota final) e passa para a segunda tela
-            Intent intent = new Intent(getApplicationContext(), SituacaoAluno.class);
-            intent.putExtra("ChaveNomeAluno", calculos.getNomeAluno());
-            intent.putExtra("ChaveNotaA1Aluno", Float.parseFloat(txtNotaA1.getText().toString()));
-            intent.putExtra("ChaveNotaA2Aluno", Float.parseFloat(txtNotaA2.getText().toString()));
-            intent.putExtra("ChaveMedia", mediaA1A2);
-            startActivity(intent);
-            finish(); // Ao abrir a nova activity, finaliza anterior para fins de otimização
-        }
+        // Pega informações do aluno (nome e nota final) e passa para a segunda tela
+        Intent intent = new Intent(getApplicationContext(), SituacaoAluno.class);
+        intent.putExtra("ChaveNomeAluno", calculos.getNomeAluno());
+        intent.putExtra("ChaveNotaA1Aluno", Float.parseFloat(txtNotaA1.getText().toString()));
+        intent.putExtra("ChaveNotaA2Aluno", Float.parseFloat(txtNotaA2.getText().toString()));
+        intent.putExtra("ChaveMedia", mediaA1A2);
+        startActivity(intent);
+        finish(); // Ao abrir a nova activity, finaliza anterior para fins de otimização
     }
 
+    // Chama o método de calcular a média da A1 + A2 ao clicar no botão
     public void buttonCalcularMediaOnClick(View view) {
         try {
             calcularMedia(view);
@@ -71,11 +77,28 @@ public class MainActivity extends AppCompatActivity {
             if (nomeDoAluno.trim().isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Por favor, informe o nome do aluno!", Toast.LENGTH_SHORT).show();
             }
-
-            // Chama a classe para realizar os calculos
         } catch (
                 Exception e) { // Em caso de erro, mostra mensagem para o usuário em uma toast
             Toast.makeText(getApplicationContext(), "Por favor, certifique-se de que foi informado o nome do aluno, nota A1 e A2 para prosseguir!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    // Esconde o Soft Keyboard ao clicar fora de um campo de input
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                    v.clearFocus();
+                    //Esconde o teclado
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
     }
 }
