@@ -90,6 +90,7 @@ public class SituacaoAluno extends AppCompatActivity {
 
         } catch (
                 Exception e) { // Em caso de erro, mostra mensagem para o usuário em uma toast
+            
             Toast.makeText(getApplicationContext(), "Por favor, certifique-se de que foi informado a nota AS para prosseguir!", Toast.LENGTH_SHORT).show();
         }
     }

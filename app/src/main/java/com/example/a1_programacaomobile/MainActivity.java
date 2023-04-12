@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -45,13 +46,32 @@ public class MainActivity extends AppCompatActivity {
         // Julga se nome do aluno foi informado ou não
         String nomeDoAluno = txtNomeAluno.getText().toString();
         if (nomeDoAluno.trim().isEmpty()) {
+            txtNomeAluno.setError("Por favor, informe o nome do aluno!");
             Toast.makeText(MainActivity.this, "Por favor, informe o nome do aluno!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        nota1 = Float.parseFloat(txtNotaA1.getText().toString());
-        nota2 = Float.parseFloat(txtNotaA2.getText().toString());
+//        nota1 = Float.parseFloat(txtNotaA1.getText().toString());
+//        nota2 = Float.parseFloat(txtNotaA2.getText().toString());
 
+        if (TextUtils.isEmpty(txtNotaA1.getText())) {
+            txtNotaA1.setError("Por favor, informe um número valido!");
+            Toast.makeText(MainActivity.this, "Por favor, informe o n!", Toast.LENGTH_SHORT).show();
+            nota1 = null;
+            return;
+        } else {
+            nota1 = Float.parseFloat(txtNotaA1.getText().toString());
+        }
+
+        if (TextUtils.isEmpty(txtNotaA2.getText())) {
+            txtNotaA2.setError("Por favor, informe um número valido!");
+            Toast.makeText(MainActivity.this, "Por favor, informe o n!", Toast.LENGTH_SHORT).show();
+            nota2 = null;
+            return;
+        } else {
+            nota2 = Float.parseFloat(txtNotaA2.getText().toString());
+        }
+        //
         Calculos calculos = new Calculos(nomeDoAluno, nota1, nota2);
 
         mediaA1A2 = calculos.calcularNota();
