@@ -1,7 +1,5 @@
 package com.example.a1_programacaomobile;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -21,7 +19,7 @@ public class SituacaoAluno extends AppCompatActivity {
     TextView txtViewInfo, txtViewAS;
     EditText txtNotaAS;
     Button btnEnviarAS;
-    float notaAS, notaAlunoPosAS;
+    Float notaAS, notaAlunoPosAS;
     String nomeAluno;
 
     @Override
@@ -55,6 +53,11 @@ public class SituacaoAluno extends AppCompatActivity {
             txtNotaAS.setVisibility(View.VISIBLE);
             txtViewAS.setVisibility(View.VISIBLE);
             FiltroNum.limitEditText(txtNotaAS, 0, 10, this);
+        } else {
+            txtViewInfo.setText(String.format(("Que pena, %s.\nVocê foi reprovado e não poderá fazer a AS \uD83D\uDE2D\nSua nota: %.2f"), nomeAluno, valorMedia));
+            btnEnviarAS.setVisibility(View.INVISIBLE);
+            txtNotaAS.setVisibility(View.INVISIBLE);
+            txtViewAS.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -63,61 +66,43 @@ public class SituacaoAluno extends AppCompatActivity {
 
         notaAS = Float.parseFloat(txtNotaAS.getText().toString());
 
-        // Critica se nota é vazia e dentro de intervalo
-        if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaAS.getText().toString()) > 10)) {
-            txtNotaAS.setError("Por favor, insira uma nota válida!");
-            Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
-        }
+        Bundle dados = getIntent().getExtras();
+        Float notaA1 = dados.getFloat("ChaveNotaA1Aluno");
+        Float notaA2 = dados.getFloat("ChaveNotaA2Aluno");
+
+        // Chama a classe para realizar os calculos
+        Calculos calculos = new Calculos(notaA1, notaA2, notaAS);
+
+        notaAlunoPosAS = calculos.calcularNotaRecuperacao();
+
+        // Intent para passar valores para a nova acitvity
+        Intent intent = new Intent(getApplicationContext(), AprovadoAS.class);
+        intent.putExtra("ChaveNotaPosAS", notaAlunoPosAS);
+        intent.putExtra("ChaveNomeAluno", nomeAluno);
+        startActivity(intent);
+        finish();
     }
 
     // Chama o método de calcular média da Avaliação Substitutiva
     public void buttonEnviarOnClick(View view) {
         try {
             calcularMediaAS(view);
-          
-            // Critica se nota é vazia e dentro de intervalo
-            if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaAS.getText().toString()) > 10)) {
-                txtNotaAS.setError("Por favor, insira uma nota válida!");
-                Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
-            } else {
-                // Chama a classe para realizar os calculos
-                Calculos calculos = new Calculos(Float.parseFloat(txtNotaA1.getText().toString()), Float.parseFloat(txtNotaA2.getText().toString()), notaAS);
 
-                float notaAlunoPosAS = calculos.calcularNotaRecuperacao();
-
-                // Julga se o aluno passou ou não
-                if (notaAlunoPosAS >= 6.0) {
-                    // Metodo de calcular
-                    txtViewInfo2.setText(String.format("Nota final do Aluno = %.2f\nParabéns, você foi aprovado!\uD83E\uDD73", notaAlunoPosAS));
-
-                } else {
-                    txtViewInfo2.setText(String.format("Nota final do Aluno = %.2f\nInfelizmente você foi reprovado!\uD83D\uDE22", notaAlunoPosAS));
-                }
-
-                if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaA1.getText().toString()) > 10) || Float.parseFloat(txtNotaA2.getText().toString()) < 0 || (Float.parseFloat(txtNotaA2.getText().toString()) > 10)) {
-                    txtNotaAS.setError("Por favor, insira uma nota válida!");
-                    Toast.makeText(getApplicationContext(), "Por favor, insira uma nota válida!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent intent = new Intent(getApplicationContext(), AprovadoAS.class);
-                    intent.putExtra("ChaveInfoAluno2", txtViewInfo2.getText());
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        } catch (Exception e) { // Em caso de erro, mostra mensagem para o usuário em uma toast
+        } catch (
+                Exception e) { // Em caso de erro, mostra mensagem para o usuário em uma toast
             Toast.makeText(getApplicationContext(), "Por favor, certifique-se de que foi informado a nota AS para prosseguir!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    //Esconde o Soft Keyboard ao clicar fora de um campo de input
+    // Esconde o Soft Keyboard ao clicar fora de um campo de input
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            if ( v instanceof EditText ) {
+            if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     //Esconde o teclado
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -127,5 +112,4 @@ public class SituacaoAluno extends AppCompatActivity {
         }
         return super.dispatchTouchEvent(event);
     }
-
 }
