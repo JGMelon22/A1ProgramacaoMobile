@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(txtNotaA1.getText())) {
             txtNotaA1.setError("Por favor, informe um número valido!");
-            Toast.makeText(MainActivity.this, "Por favor, informe o n!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Por favor, informe a nota A1!", Toast.LENGTH_SHORT).show();
             nota1 = null;
             return;
         } else {
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(txtNotaA2.getText())) {
             txtNotaA2.setError("Por favor, informe um número valido!");
-            Toast.makeText(MainActivity.this, "Por favor, informe o n!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Por favor, informe a nota A2!", Toast.LENGTH_SHORT).show();
             nota2 = null;
             return;
         } else {
