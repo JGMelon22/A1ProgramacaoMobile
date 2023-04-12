@@ -110,8 +110,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("ChaveMediaAluno", txtViewMediaAc.getText().toString());
                 startActivity(intent);
                 finish(); // Ao abrir a nova activity, finaliza anterior para fins de otimização
-            } else {
-                return;
             }
 
         } catch (Exception e) { // Em caso de erro, mostra mensagem para o usuário em uma toast
