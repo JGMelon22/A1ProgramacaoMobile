@@ -14,12 +14,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class SituacaoAluno extends AppCompatActivity {
 
-    TextView txtViewInfo, txtViewMedia, txtViewAS, txtViewInfo2;
-    EditText txtNotaAS, txtNotaA1, txtNotaA2;
+    TextView txtViewInfo, txtViewAS;
+    EditText txtNotaAS;
     Button btnEnviarAS;
-    float notaAS;
+    float notaAS, notaAlunoPosAS;
+    String nomeAluno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,31 +36,21 @@ public class SituacaoAluno extends AppCompatActivity {
         btnEnviarAS = findViewById(R.id.buttonEnviar);
         txtNotaAS = findViewById(R.id.editTextAS);
         txtViewAS = findViewById(R.id.textViewAS);
-        txtViewInfo2 = findViewById(R.id.textViewInfo2);
-
-        // Instancia objeto grafico e obtem dados da activity anterior
         txtViewInfo = findViewById(R.id.textViewInfo);
-        String valorViewInfo = getIntent().getStringExtra("ChaveInfoAluno");
-        txtViewInfo.setText(valorViewInfo);
 
-        txtNotaA1 = findViewById(R.id.editTextA1);
-        String valorNotaA1 = getIntent().getStringExtra("ChaveNotaA1Aluno");
-        txtNotaA1.setText(valorNotaA1);
-
-        txtNotaA2 = findViewById(R.id.editTextA2);
-        String valorNotaA2 = getIntent().getStringExtra("ChaveNotaA2Aluno");
-        txtNotaA2.setText(valorNotaA2);
-
-        txtViewMedia = findViewById(R.id.textViewMedia);
-        String valorMedia = getIntent().getStringExtra("ChaveMediaAluno");
-        txtViewMedia.setText(String.valueOf(valorMedia));
+        // Obtem valores da actvity anterior
+        Bundle dados = getIntent().getExtras();
+        nomeAluno = dados.getString("ChaveNomeAluno");
+        Float valorMedia = dados.getFloat("ChaveMedia");
 
         // Julga se o Aluno pode/deve fazer AS
-        if (Float.parseFloat(txtViewMedia.getText().toString()) >= 6 || Float.parseFloat(txtViewMedia.getText().toString()) < 4) {
+        if (valorMedia >= 6.0F) {
+            txtViewInfo.setText(String.format(("Parabéns, %s. Você foi aprovado! \uD83E\uDD73 Sua nota: %.2f"), nomeAluno, valorMedia));
             btnEnviarAS.setVisibility(View.INVISIBLE);
             txtNotaAS.setVisibility(View.INVISIBLE);
             txtViewAS.setVisibility(View.INVISIBLE);
-        } else {
+        } else if (valorMedia < 6.0F && valorMedia >= 4.0F) {
+            txtViewInfo.setText(String.format(("Que pena, %s.\nVocê foi reprovado, mas poderá fazer a AS \uD83D\uDE22\nSua nota: %.2f"), nomeAluno, valorMedia));
             btnEnviarAS.setVisibility(View.VISIBLE);
             txtNotaAS.setVisibility(View.VISIBLE);
             txtViewAS.setVisibility(View.VISIBLE);
@@ -65,7 +58,9 @@ public class SituacaoAluno extends AppCompatActivity {
         }
     }
 
+    // Método para calcular média da Avaliação Substitutiva
     public void calcularMediaAS(View view) {
+
         notaAS = Float.parseFloat(txtNotaAS.getText().toString());
 
         // Critica se nota é vazia e dentro de intervalo
@@ -75,11 +70,11 @@ public class SituacaoAluno extends AppCompatActivity {
         }
     }
 
-    // Calcular AS
+    // Chama o método de calcular média da Avaliação Substitutiva
     public void buttonEnviarOnClick(View view) {
         try {
             calcularMediaAS(view);
-
+          
             // Critica se nota é vazia e dentro de intervalo
             if (Float.parseFloat(txtNotaAS.getText().toString()) < 0 || (Float.parseFloat(txtNotaAS.getText().toString()) > 10)) {
                 txtNotaAS.setError("Por favor, insira uma nota válida!");

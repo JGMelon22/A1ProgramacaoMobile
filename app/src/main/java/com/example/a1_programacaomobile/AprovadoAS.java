@@ -21,8 +21,16 @@ public class AprovadoAS extends AppCompatActivity {
         txtViewResultadoPosAS = findViewById(R.id.textViewResultadoPosAS);
 
         // Instancia objeto grafico e obtem dados da activity anterior
-        String valorViewInfo2 = getIntent().getStringExtra("ChaveInfoAluno2");
-        txtViewResultadoPosAS.setText(valorViewInfo2);
+        Bundle dados = getIntent().getExtras();
+        String nomeAluno = dados.getString("ChaveNomeAluno");
+        Float valorMedia = dados.getFloat("ChaveNotaPosAS");
+
+        // Julga se o Aluno passou
+        if (valorMedia >= 6.0F) {
+            txtViewResultadoPosAS.setText(String.format(("Parabéns, %s.\nVocê foi aprovado! \uD83E\uDD73\nSua nota: %.2f"), nomeAluno, valorMedia));
+        } else {
+            txtViewResultadoPosAS.setText(String.format(("Que pena, %s.\nVocê foi reprovado! \uD83D\uDE22\nSua nota: %.2f"), nomeAluno, valorMedia));
+        }
     }
 
     // Encerra o programa

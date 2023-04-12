@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public void calcularMedia(View view) {
 
         txtNomeAluno = findViewById(R.id.plainTextNomeAluno);
+      
         txtNotaFinalAluno = findViewById(R.id.textViewInfoMainAc);
         txtViewMediaAc = findViewById(R.id.textViewMediaAc);
 
@@ -69,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             nota2 = Float.parseFloat(txtNotaA2.getText().toString());
         }
-
     }
 
+    // Chama o método de calcular a média da A1 + A2 ao clicar no botão
     public void buttonCalcularMediaOnClick(View view) {
         try {
             calcularMedia(view);
@@ -115,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) { // Em caso de erro, mostra mensagem para o usuário em uma toast
             Toast.makeText(MainActivity.this, "Por favor, certifique-se de que foi informado o nome do aluno, nota A1 e A2 para prosseguir!", Toast.LENGTH_SHORT).show();
         }
+        return super.dispatchTouchEvent(event);
     }
 
     //Esconde o Soft Keyboard ao clicar fora de um campo de input
