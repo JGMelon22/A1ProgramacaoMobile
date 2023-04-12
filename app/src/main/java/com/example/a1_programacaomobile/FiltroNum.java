@@ -18,6 +18,7 @@ public class FiltroNum {
             this.max = max;
             this.ctx = ctx;
         }
+
     }
     public static void limitEditText(final EditText ed, int min, int max, Context ctx) {
 
@@ -38,7 +39,9 @@ public class FiltroNum {
                 float n = 0;
                 try {
                     n = Float.parseFloat(str);
-                    if (str.equals(max + ".")) {
+
+                    if (str.equals(max+".")) {
+
                         ed.setText(Integer.toString(max));
                         Toast.makeText(ctx, "Número máximo permitido é " + max, Toast.LENGTH_SHORT).show();
                         ed.setSelection(2);
@@ -52,11 +55,12 @@ public class FiltroNum {
                         ed.setText(Float.toString(n));
                         ed.setSelection(Float.toString(n).length());
                     }
-                } catch (NumberFormatException nfe) {
+
+                }
+                catch(NumberFormatException nfe) {
 
                 }
             }
         });
     }
-
 }
