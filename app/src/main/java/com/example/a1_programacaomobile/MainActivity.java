@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
 //        nota1 = Float.parseFloat(txtNotaA1.getText().toString());
 //        nota2 = Float.parseFloat(txtNotaA2.getText().toString());
+//        nota1 = Float.parseFloat(txtNotaA1.getText().toString());
+//        nota2 = Float.parseFloat(txtNotaA2.getText().toString());
 
         if (TextUtils.isEmpty(txtNotaA1.getText())) {
             txtNotaA1.setError("Por favor, informe um número valido!");
